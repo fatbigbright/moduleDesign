@@ -17,10 +17,9 @@ require(['jquery'], function($){
     var form = $('form.todoForm');
     var input = form.find('input#txtItem');
     var list = $('ul.todoList');
+    var usual = $('ul.usualList li');
 
-    form.submit(function(e){
-      e.preventDefault();
-      var text = input.val();
+    function addList(text){
       var html = '<li><input type="checkbox">' + text + '</li>';
       var li = $(html);
       li.find('input[type="checkbox"]').change(function(){
@@ -28,6 +27,18 @@ require(['jquery'], function($){
       });
 
       list.append(li);
+    };
+
+    usual.click(function(e){
+      e.preventDefault();
+      var text = $(this).text();
+      addList(text);
+    });
+
+    form.submit(function(e){
+      e.preventDefault();
+      var text = input.val();
+      addList(text);
     });
   });
 });
