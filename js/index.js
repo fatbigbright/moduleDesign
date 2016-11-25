@@ -1,7 +1,9 @@
 //http://hokaccha.github.io/slides/javascript_design_and_test
 require.config({
   paths: {
-    'jquery': '../bower_components/jquery/dist/jquery.min'
+    'jquery': '../bower_components/jquery/dist/jquery.min',
+    'todoForm': 'view.todoForm',
+    'todoList': 'view.todoList'
   },
   map: {
     '*': {
@@ -12,33 +14,10 @@ require.config({
     'jquery': ['css!../css/default.css']//load default.css before jquery
   }
 });
-require(['jquery'], function($){
+
+require(['jquery', 'todoForm', 'todoList'], function($, TodoFormView, TodoListView){
   $(document).ready(function(){
-    var form = $('form.todoForm');
-    var input = form.find('input#txtItem');
-    var list = $('ul.todoList');
-    var usual = $('ul.usualList li');
-
-    function addList(text){
-      var html = '<li><input type="checkbox">' + text + '</li>';
-      var li = $(html);
-      li.find('input[type="checkbox"]').change(function(){
-        $(this).closest('li').toggleClass('complete');
-      });
-
-      list.append(li);
-    };
-
-    usual.click(function(e){
-      e.preventDefault();
-      var text = $(this).text();
-      addList(text);
-    });
-
-    form.submit(function(e){
-      e.preventDefault();
-      var text = input.val();
-      addList(text);
-    });
+    new TodoFormView($('form.todoForm'));
+    new TodoListView($('ul.todoList'));
   });
 });
